@@ -9,5 +9,13 @@ do
         echo $i
         exit
     fi
+
+    if [ "${1-}" = -v ]
+    then
+        printf '\e[%dm' $i
+        printf $i
+        tput sgr0
+        printf '\n'
+    fi
     let i+=1
 done

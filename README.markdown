@@ -12,6 +12,10 @@ Usage
 
 You might have to wait a few seconds for the result to be returned.
 
+    ./xterm-color-count.sh -v
+
+Print each color number in its own formatting.
+
 Credit
 ------
 
