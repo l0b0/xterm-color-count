@@ -1,21 +1,33 @@
 #!/usr/bin/env bash
-i=0
-while true
+# This is xterm-color-count.sh
+# This prints the number of colors your terminal supports.
+# With the -v option, it actually prints a sample of each of those colors.
+min=0
+max=256
+while [[ $((min+1)) -lt $max ]]
 do
+    i=$(( (min+max)/2 ))
+    echo $min, $max, $i
     printf '\e]4;%d;?\a' $i
-    read -d $'\a' -s -t 1 </dev/tty
+    read -d $'\a' -s -t 0.1 </dev/tty
     if [ -z "$REPLY" ]
     then
-        echo $i
-        exit
+        max=$i
+    else
+	min=$i
     fi
-
-    if [ "${1-}" = -v ]
-    then
-        printf '\e[%dm' $i
-        printf $i
-        tput sgr0
-        printf '\n'
-    fi
-    let i+=1
 done
+
+if [ "${1-}" = -v ]
+then
+    for ((i=0; i<max; i++))
+    do
+	printf '\e[%dm' $i
+	printf $i
+	tput sgr0
+	printf '\n'
+    done
+else
+    echo "$max"
+fi
+
