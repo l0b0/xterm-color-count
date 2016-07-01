@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
-# This is xterm-color-count.sh
-# This prints the number of colors your terminal supports.
-# With the -v option, it actually prints a sample of each of those colors.
+
+# First, test if terminal supports OSC 4 at all.
+printf '\e]4;%d;?\a' 0
+read -d $'\a' -s -t 0.1 </dev/tty
+if [ -z "$REPLY" ]
+then
+    # OSC 4 not supported, so we'll fall back to terminfo 
+    tput colors
+    exit 0
+fi
+
+# Binary search 
 min=0
 max=256
 while [[ $((min+1)) -lt $max ]]
 do
     i=$(( (min+max)/2 ))
-    echo $min, $max, $i
     printf '\e]4;%d;?\a' $i
     read -d $'\a' -s -t 0.1 </dev/tty
     if [ -z "$REPLY" ]
@@ -18,6 +26,7 @@ do
     fi
 done
 
+# If -v is given, show all the colors
 if [ "${1-}" = -v ]
 then
     for ((i=0; i<max; i++))
@@ -30,4 +39,3 @@ then
 else
     echo "$max"
 fi
-
