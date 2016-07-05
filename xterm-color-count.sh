@@ -5,12 +5,12 @@ printf '\e]4;%d;?\a' 0
 read -d $'\a' -s -t 0.1 </dev/tty
 if [ -z "$REPLY" ]
 then
-    # OSC 4 not supported, so we'll fall back to terminfo 
+    # OSC 4 not supported, so we'll fall back to terminfo
     tput colors
     exit 0
 fi
 
-# Binary search 
+# Binary search
 min=0
 max=256
 while [[ $((min+1)) -lt $max ]]

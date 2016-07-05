@@ -24,4 +24,4 @@ This does not work with the Linux console as it does not support the OSC 4 escap
 Credit
 ------
 
-L0b0 wrote the code, hackerb9 changed it to a binary search. Gilles did [all the research](http://unix.stackexchange.com/a/23789/3645), and has awesome communication skills and \*nix knowledge. 
+L0b0 wrote the code, hackerb9 changed it to a binary search. Gilles did [all the research](http://unix.stackexchange.com/a/23789/3645), and has awesome communication skills and \*nix knowledge.
