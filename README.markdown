@@ -3,7 +3,7 @@ XTerm Color Count
 
 Count how many colors your XTerm *actually* supports, since it may be different from what `tput colors` reports.
 
-For example, on my desktop (Ubuntu 11.10 with XTerm(271)) `tput colors` returns 8 while XTerm actually supports 256 colors.
+For example, both gnome-terminal and XTerm support 256 colors, but `tput colors` returns 8.
 
 Usage
 -----
@@ -16,7 +16,12 @@ You might have to wait a few seconds for the result to be returned.
 
 Print each color number in its own formatting.
 
+Bugs
+----
+
+This does not work with the Linux console as it does not support the OSC 4 escape sequence.
+
 Credit
 ------
 
-Gilles did [all the research](http://unix.stackexchange.com/a/23789/3645), and has awesome communication skills and \*nix knowledge.
+L0b0 wrote the code, hackerb9 changed it to a binary search. Gilles did [all the research](http://unix.stackexchange.com/a/23789/3645), and has awesome communication skills and \*nix knowledge.

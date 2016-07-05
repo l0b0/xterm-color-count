@@ -1,21 +1,41 @@
 #!/usr/bin/env bash
-i=0
-while true
+
+# First, test if terminal supports OSC 4 at all.
+printf '\e]4;%d;?\a' 0
+read -d $'\a' -s -t 0.1 </dev/tty
+if [ -z "$REPLY" ]
+then
+    # OSC 4 not supported, so we'll fall back to terminfo
+    tput colors
+    exit 0
+fi
+
+# Binary search
+min=0
+max=256
+while [[ $((min+1)) -lt $max ]]
 do
+    i=$(( (min+max)/2 ))
     printf '\e]4;%d;?\a' $i
-    read -d $'\a' -s -t 1 </dev/tty
+    read -d $'\a' -s -t 0.1 </dev/tty
     if [ -z "$REPLY" ]
     then
-        echo $i
-        exit
+        max=$i
+    else
+	min=$i
     fi
-
-    if [ "${1-}" = -v ]
-    then
-        printf '\e[%dm' $i
-        printf $i
-        tput sgr0
-        printf '\n'
-    fi
-    let i+=1
 done
+
+# If -v is given, show all the colors
+if [ "${1-}" = -v ]
+then
+    for ((i=0; i<max; i++))
+    do
+	printf '\e[%dm' $i
+	printf $i
+	tput sgr0
+	printf '\n'
+    done
+else
+    echo "$max"
+fi
